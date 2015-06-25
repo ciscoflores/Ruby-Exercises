@@ -1,3 +1,4 @@
+#Encontrar los valores minimo y maximo de un array 
 def minimo_maximo(array)
   min = array[0]
   max = array[0]

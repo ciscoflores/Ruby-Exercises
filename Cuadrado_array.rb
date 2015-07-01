@@ -6,4 +6,10 @@ def cuadrado(array)
     puts "El cuadrado de los numeros es #{array}"
 end
 
-cuadrado([2,5,7,8])
+#Misma operacion haciendo uso de metodo .map
+def cuadrado2 (array2)
+    array2 = array2.map { |x| x * x}
+    puts array2
+end
+
+cuadrado2([2,5,7,8])

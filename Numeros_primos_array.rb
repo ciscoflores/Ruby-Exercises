@@ -8,6 +8,12 @@ def primo(array)
   end
 end
 
+#Misma operacion haciendo uso del metodo select
+def primo2(array2)
+    array_primos = array2.select { |x| es_numero_primo?(x) }
+    puts array_primos
+end
+
 def  es_numero_primo?(num)
   found_divider = false
   for d in 2..(num - 1)
@@ -22,4 +28,4 @@ def  es_numero_primo?(num)
   end
 end
 
-primo([2,5,7,8,10])
+primo2([2,5,7,8,10])

@@ -13,5 +13,13 @@ def multiplica2(array2, num2)
     puts array2
 end
 
+#Misma operacion, haciendo uso de .each do
+def multiplica3 (array3, num3)
+    result3 = []
+    array3.each do |x|
+        result3.push x * num3
+    end
+    puts "El resultado es #{result3}"
+end
 
-multiplica2([4,5,7,8], 5)
+multiplica3([4,5,7,8], 5)

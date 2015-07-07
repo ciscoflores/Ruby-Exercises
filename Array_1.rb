@@ -13,10 +13,16 @@ array=[]
     puts "El resultado no #{a + 1} es #{array[a]}"
   end
 
-  c = 4
+  c = 1
   10.times do
       puts "El resultado no #{c + 1} es #{array[c]}"
     c =  c + 1
+  end
+
+  d = 1
+  array.each do |elemento|
+     puts "El resultado de #{num} * #{d} es #{elemento}"
+     d = d + 1
   end
 end
 

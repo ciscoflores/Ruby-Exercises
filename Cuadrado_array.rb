@@ -7,9 +7,17 @@ def cuadrado(array)
 end
 
 #Misma operacion haciendo uso de metodo .map
-def cuadrado2 (array2)
+def cuadrado2(array2)
     array2 = array2.map { |x| x * x}
     puts array2
 end
 
-cuadrado2([2,5,7,8])
+def cuadrado3(array3)
+    result = []
+    array3.each do |x|
+        result.push (x * x)
+    end
+    puts result
+end
+
+cuadrado3([2,5,7,8])

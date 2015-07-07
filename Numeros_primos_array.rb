@@ -14,6 +14,15 @@ def primo2(array2)
     puts array_primos
 end
 
+#Misma operacion, haciendo uso de .each do
+def primos3(array3)
+    array3.each do |x|
+        if es_numero_primo?(x)
+            puts "El numero #{x} es primo"
+        end
+    end
+end
+
 def  es_numero_primo?(num)
   found_divider = false
   for d in 2..(num - 1)
@@ -28,4 +37,4 @@ def  es_numero_primo?(num)
   end
 end
 
-primo2([2,5,7,8,10])
+primos3([2,5,7,8,10])

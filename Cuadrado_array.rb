@@ -12,6 +12,7 @@ def cuadrado2(array2)
     puts array2
 end
 
+#Mismo metodo haciendo uso de .each do
 def cuadrado3(array3)
     result = []
     array3.each do |x|
@@ -20,4 +21,12 @@ def cuadrado3(array3)
     puts result
 end
 
-cuadrado3([2,5,7,8])
+#Mismo metodo haciendo uso de .each_index do
+def cuadrado4(array4)
+    array4.each_index do |i|
+        array4[i] = (array4[i] * array4[i])
+    end
+    puts array4
+end
+
+cuadrado4([2,5,7,8])

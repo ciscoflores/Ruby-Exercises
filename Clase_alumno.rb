@@ -1,12 +1,15 @@
 #Script para crear una clase, sus metodos y objetos
 #Se emplea set y get para asignar y obtener los valores
+#Se agrega la variable de clase @@school, la cual comparte el mismo valor en todos los objetos de esa clase
 class Alumno
-        def initialize(name = "", last_name = "", id = 0, birthday = "01/01/1990")
+        def initialize(name = "", last_name = "", id = 0, birthday = "01/01/1990", school = "")
             @name = name
             @last_name = last_name
             @id = id
             @clave = ""
             @birthday = birthday
+            @@school = school
+            @materias = {"math" => 0, "spanish" => 0, "science" => 0}
         end
 
         #Metodos de Set
@@ -26,6 +29,14 @@ class Alumno
             @birthday = birthday
         end
 
+        def set_school(school)
+            @@school = school
+        end
+#La variable @materias es un hash que recibira el nombre de la materia y la calificacion
+        def set_calificacion1(materia, calificacion)
+            @materias[materia] = calificacion
+        end
+
         #Metodos de Get
         def get_name
             return @name
@@ -41,6 +52,14 @@ class Alumno
 
         def get_birthday
             return @birthday
+        end
+
+        def get_school
+            return @@school
+        end
+
+        def get_materias
+            return @materias
         end
 
 #Split separa @name donde hay espacio y lo guarda en cadena como un nuevo array
@@ -80,11 +99,19 @@ alumnito.set_name("Jose Francisco")
 alumnito.set_last_name("Flores nada")
 alumnito.set_id(107)
 alumnito.set_birthday("01/01/1950")
+alumnito.set_school("Unversidad Acme")
+alumnito.set_calificacion1("math", 10)
+
+puts "La escuela del alumno #{alumnito.get_name} es #{alumnito.get_school}"
 
 #Creacion de un nuevo alumno con valores
-alumnita = Alumno.new("Lola","Contreras",03,"01/24/1988")
+#En el segundo alumno, @school cambia su valor de "universidad acme" a "escuela de bordado..."
+alumnita = Alumno.new("Lola","Contreras",03,"01/24/1988", "Escuela de Bordado Doña Teresita")
 
 puts "El nombre del alumno es #{alumnito.get_name} #{alumnito.get_last_name} con no. de control #{alumnito.get_id}"
 puts "El nombre del alumno es #{alumnita.get_name} #{alumnita.get_last_name} con no. de control #{alumnita.get_id}"
 puts "La clave del alumno #{alumnito.get_name} es #{alumnito.clave}"
 puts "La clave del alumno #{alumnita.get_name} es #{alumnita.clave}"
+puts "La escuela del alumno #{alumnito.get_name} es #{alumnito.get_school}"
+puts "La escuela del alumno #{alumnita.get_name} es #{alumnita.get_school}"
+puts "Las materias del alumno #{alumnito.get_name} son #{alumnito.get_materias}"

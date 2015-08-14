@@ -44,6 +44,26 @@ class Ropa
      @datos_tienda = datos_tienda
   end
 
+  def set_precio_lista(precio_lista)
+      @datos_tienda.set_precio_lista(precio_lista)
+  end
+
+  def set_descuento(descuento)
+      @datos_tienda.set_descuento(descuento)
+  end
+
+  def set_iva(iva)
+      @datos_tienda.set_iva(iva)
+  end
+
+  def set_inventario(inventario)
+      @datos_tienda.set_inventario(inventario)
+  end
+
+  def set_cantidad(cantidad)
+      @datos_tienda.set_cantidad(cantidad)
+  end
+
   def get_talla
       return @talla
   end
@@ -77,30 +97,54 @@ class Ropa
   end
 #Se accede al parametro precio_venta de la clase Datos_tienda
   def get_precio_venta
+      @datos_tienda.set_precio_venta
       return @datos_tienda.get_precio_venta
+  end
+
+  def get_precio_lista
+      return @datos_tienda.get_precio_lista
+  end
+
+  def get_descuento
+      return @datos_tienda.get_descuento
+  end
+
+  def get_iva
+      return @datos_tienda.get_iva
+  end
+
+  def get_inventario
+      return @datos_tienda.get_inventario
+  end
+
+  def get_cantidad
+     return @datos_tienda.get_cantidad
   end
 
   def get_objeto_datos_tienda
     return @datos_tienda
   end
+
 end
 
 class Datos_tienda
 
-  def initialize(precio_lista = 0, precio_venta = 0, descuento = 0, iva = 0, inventario = 0)
+  def initialize(precio_lista = 0, descuento = 0, iva = 0, inventario = 0, cantidad = 0)
       @precio_lista = precio_lista
-      @precio_venta = precio_venta
+      @precio_venta = 0
       @descuento = descuento
       @iva = iva
       @inventario = inventario
+      @cantidad = cantidad
   end
 
   def set_precio_lista(precio_lista)
       @precio_lista = precio_lista
   end
 
-  def set_precio_venta(precio_venta)
-      @precio_venta = precio_venta
+  def set_precio_venta
+      precio_iva = (@precio_lista * (1 + ( @iva / 100.0) ) )
+      @precio_venta =  precio_iva - ( precio_iva * ( @descuento / 100.0 ) )
   end
 
   def set_descuento(descuento)
@@ -113,6 +157,10 @@ class Datos_tienda
 
   def set_inventario(inventario)
       @inventario = inventario
+  end
+
+  def set_cantidad(cantidad)
+      @cantidad = cantidad
   end
 
   def get_precio_lista
@@ -135,21 +183,48 @@ class Datos_tienda
       return @inventario
   end
 
+  def get_cantidad
+      return @cantidad
+  end
+
 end
 
 prenda_uno = Ropa.new("mediana", "manga larga", "azul", "algodon", "blusa", "adulto", "femenino")
 prenda_dos = Ropa.new("grande", "entubado", "mezclilla", "algodon", "pantalon", "niño", "masculino")
 prenda_tres = Ropa.new("chica", "largo", "poliester", "algodon", "vestido", "niña", "femenino")
-tienda_uno = Datos_tienda.new(25, 50, 10, 16, 89)
+#tienda_uno = Datos_tienda.new(25, 50, 10, 16, 89)
 #Se hara uso de los datos de la tienda uno en el nuevo objeto de prenda_uno
-prenda_uno.set_datos_tienda(tienda_uno)
+#prenda_uno.set_datos_tienda(tienda_uno)
+
+prenda_uno.set_iva(16)
+prenda_uno.set_precio_lista(45)
+prenda_uno.set_cantidad(20)
+
+prenda_dos.set_iva(16)
+prenda_dos.set_precio_lista(35.5)
+prenda_dos.set_descuento(10)
+prenda_dos.set_cantidad(5)
+
+prenda_tres.set_iva(16)
+prenda_tres.set_precio_lista(16)
+prenda_tres.set_descuento(5)
+prenda_tres.set_cantidad(2)
+
 array = []
 array.push(prenda_uno)
 array.push(prenda_dos)
 array.push(prenda_tres)
 
-var_datos_tienda = prenda_uno.get_objeto_datos_tienda
+cantidad_total = 0
+total_pagar = 0
+array.each do |prenda|
+  puts "El total a pagar por #{prenda.get_cantidad} prendas es $#{prenda.get_cantidad * prenda.get_precio_venta} con un precio de venta de $#{prenda.get_precio_venta}"
+  cantidad_total = prenda.get_cantidad + cantidad_total
+  total_pagar = (prenda.get_cantidad * prenda.get_precio_venta) + total_pagar
+end
+puts "La cantidad total de prendas es #{cantidad_total} con un total a pagar de $#{total_pagar}"
+#var_datos_tienda = prenda_uno.get_objeto_datos_tienda
+#puts prenda_uno.get_color
 
-puts prenda_uno.get_color
 puts prenda_uno.get_precio_venta
-puts var_datos_tienda.get_precio_venta
+puts prenda_uno.get_cantidad

@@ -1,12 +1,13 @@
 class Avion
-  def initialize(tipo_avion = "", cap_combustible = 0, peso_avion = 0, millas_recorrido = 0, cap_pasajeros = 0, no_pasajeros = 0, cap_carga_equipaje = 0)
+  def initialize(tipo_avion = "", cap_combustible = 0, peso_avion = 0, millas_recorrido = 0, cap_pasajeros = 0, cap_carga_equipaje = 0)
       @tipo_avion = tipo_avion
       @cap_combustible = cap_combustible
       @peso_avion = peso_avion
       @millas_recorrido = peso_avion
       @cap_pasajeros = cap_pasajeros
-      @no_pasajeros = no_pasajeros
+      @no_pasajeros = 0
       @cap_carga_equipaje = cap_carga_equipaje
+      @total_carga_equipaje = 0
       @array_pasajeros = []
   end
 
@@ -14,7 +15,7 @@ class Avion
       @tipo_avion = tipo_avion
   end
 
-  def set_cap_combustible()cap_combustible
+  def set_cap_combustible(cap_combustible)
       @cap_combustible = cap_combustible
   end
 
@@ -30,12 +31,20 @@ class Avion
       @cap_combustible = cap_combustible
   end
 
-  def set_no_pasajeros(no_pasajeros)
-      @no_pasajeros = no_pasajeros
+  def set_no_pasajeros
+      @no_pasajeros = @array_pasajeros.count
   end
 
   def set_cap_carga_equipaje(cap_carga_equipaje)
       @cap_carga_equipaje = cap_carga_equipaje
+  end
+#Se accesa al peso_total_maletas en cada pasajero y se suman para obtener el total de la carga del equipaje  
+  def set_total_carga_equipaje
+      total = 0
+      @array_pasajeros.each do |pasajero|
+        total = total + pasajero.get_peso_total_maletas
+      end
+      @total_carga_equipaje = total
   end
 
   def set_array_pasajeros(array_pasajeros)
@@ -73,12 +82,21 @@ class Avion
   def get_array_pasajeros
       return @array_pasajeros
   end
+
+  def calculo_combustible
+
+  end
+
+  def get_total_carga_equipaje
+      return @total_carga_equipaje
+  end
+
 end
 
 class Pasajero
-  def initialize(peso_pasajero  = 0, peso_maleta = 0, cantidad_maleta = 0)
+  def initialize(peso_pasajero = 0, peso_total_maletas = 0, cantidad_maleta = 0)
       @peso_pasajero = peso_pasajero
-      @peso_maleta = peso_maleta
+      @peso_total_maletas = peso_total_maletas
       @cantidad_maleta = cantidad_maleta
   end
 
@@ -86,8 +104,8 @@ class Pasajero
       @peso_pasajero = peso_pasajero
   end
 
-  def set_peso_maleta(peso_maleta)
-      @peso_maleta = peso_maleta
+  def set_peso_total_maletas(peso_total_maletas)
+      @peso_total_maletas = peso_total_maletas
   end
 
   def set_cantidad_maleta(cantidad_maleta)
@@ -98,8 +116,8 @@ class Pasajero
       return @peso_pasajero
   end
 
-  def get_peso_maleta
-      return @peso_maleta
+  def get_peso_total_maletas
+      return @peso_total_maletas
   end
 
   def get_cantidad_maleta

@@ -7,7 +7,6 @@ class Avion
       @cap_pasajeros = cap_pasajeros
       @no_pasajeros = 0
       @cap_carga_equipaje = cap_carga_equipaje
-      @total_carga_equipaje = 0
       @array_pasajeros = []
   end
 
@@ -37,14 +36,6 @@ class Avion
 
   def set_cap_carga_equipaje(cap_carga_equipaje)
       @cap_carga_equipaje = cap_carga_equipaje
-  end
-#Se accesa al peso_total_maletas en cada pasajero y se suman para obtener el total de la carga del equipaje  
-  def set_total_carga_equipaje
-      total = 0
-      @array_pasajeros.each do |pasajero|
-        total = total + pasajero.get_peso_total_maletas
-      end
-      @total_carga_equipaje = total
   end
 
   def set_array_pasajeros(array_pasajeros)
@@ -82,13 +73,35 @@ class Avion
   def get_array_pasajeros
       return @array_pasajeros
   end
-
+#Se hace uso de self para hacer referencia a metodos dentro de la misma clase, se calcula el combustible gastado en base al peso total del avion 
   def calculo_combustible
-
+      peso_total_avion = @peso_avion + self.get_total_carga_equipaje + self.get_total_peso_pasajeros
+      if peso_total_avion <= 30
+         millas = 14
+      elsif peso_total_avion <= 40
+         millas = 16.5
+      elsif peso_total_avion <= 60
+         millas = 19
+      elsif peso_total_avion <= 100
+         millas = 23.4
+      end
+      return @millas_recorrido / millas
+  end
+#Se accesa al peso_total_maletas en cada pasajero y se suman para obtener el total de la carga del equipaje
+  def get_total_carga_equipaje
+      total = 0
+      @array_pasajeros.each do |pasajero|
+        total = total + pasajero.get_peso_total_maletas
+      end
+      return total
   end
 
-  def get_total_carga_equipaje
-      return @total_carga_equipaje
+  def get_total_peso_pasajeros
+      total_peso = 0
+      @array_pasajeros.each do |pasajeros|
+        total_peso = total_peso + pasajeros.get_peso_pasajero
+      end
+      return total_peso
   end
 
 end

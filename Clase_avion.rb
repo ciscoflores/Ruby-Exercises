@@ -1,13 +1,14 @@
 class Avion
-  def initialize(tipo_avion = "", cap_combustible = 0, peso_avion = 0, millas_recorrido = 0, cap_pasajeros = 0, cap_carga_equipaje = 0)
+  def initialize(tipo_avion = "", cap_combustible = 0, peso_avion = 0, millas_recorrido = 0, cap_pasajeros = 0, cap_carga_equipaje = 0, limite_peso_avion = 0)
       @tipo_avion = tipo_avion
       @cap_combustible = cap_combustible
       @peso_avion = peso_avion
-      @millas_recorrido = peso_avion
+      @millas_recorrido = millas_recorrido
       @cap_pasajeros = cap_pasajeros
       @no_pasajeros = 0
       @cap_carga_equipaje = cap_carga_equipaje
       @array_pasajeros = []
+      @limite_peso_avion = limite_peso_avion
   end
 
   def set_tipo_avion(tipo_avion)
@@ -42,6 +43,9 @@ class Avion
       @array_pasajeros = array_pasajeros
   end
 
+  def set_limite_peso_avion(limite_peso_avion)
+      @limite_peso_avion = limite_peso_avion
+  end
   def get_tipo_avion
       return @tipo_avion
   end
@@ -73,17 +77,26 @@ class Avion
   def get_array_pasajeros
       return @array_pasajeros
   end
-#Se hace uso de self para hacer referencia a metodos dentro de la misma clase, se calcula el combustible gastado en base al peso total del avion 
-  def calculo_combustible
-      peso_total_avion = @peso_avion + self.get_total_carga_equipaje + self.get_total_peso_pasajeros
-      if peso_total_avion <= 30
-         millas = 14
-      elsif peso_total_avion <= 40
+
+  def get_limite_peso_avion(limite_peso_avion)
+      return @limite_peso_avion
+  end
+#Se hace uso de self para hacer referencia a metodos dentro de la misma clase
+  def get_peso_total_avion
+     return @peso_avion + self.get_total_carga_equipaje + self.get_total_peso_pasajeros
+  end
+#Se calcula el combustible gastado en base al peso total del avion
+  def get_calculo_combustible
+      if get_peso_total_avion <= 30
+         millas = 14.0
+      elsif get_peso_total_avion <= 40
          millas = 16.5
-      elsif peso_total_avion <= 60
-         millas = 19
-      elsif peso_total_avion <= 100
+      elsif get_peso_total_avion <= 60
+         millas = 19.0
+      elsif get_peso_total_avion <= 100
          millas = 23.4
+       else
+         millas = 29.0
       end
       return @millas_recorrido / millas
   end
@@ -93,7 +106,7 @@ class Avion
       @array_pasajeros.each do |pasajero|
         total = total + pasajero.get_peso_total_maletas
       end
-      return total
+      return total / 1000.0
   end
 
   def get_total_peso_pasajeros
@@ -101,7 +114,16 @@ class Avion
       @array_pasajeros.each do |pasajeros|
         total_peso = total_peso + pasajeros.get_peso_pasajero
       end
-      return total_peso
+      return total_peso /1000.0
+  end
+
+  def add_pasajero(pasajero)
+
+      if get_peso_total_avion + ((pasajero.get_peso_pasajero + pasajero.get_peso_total_maletas) / 1000.0) <= @limite_peso_avion
+      @array_pasajeros.push(pasajero)
+      else
+      puts "Bajale a las tortas gordito"
+    end
   end
 
 end
@@ -137,3 +159,13 @@ class Pasajero
       return @cantidad_maleta
   end
 end
+
+avioncito = Avion.new("Chafita", 200, 100, 1000, 12, 23, 100.200)
+pasajerito_uno = Pasajero.new(80, 23, 2)
+pasajerita_uno = Pasajero.new(45, 10, 1)
+pasajerote_uno = Pasajero.new(200,25,2)
+avioncito.add_pasajero(pasajerito_uno)
+avioncito.add_pasajero(pasajerita_uno)
+avioncito.add_pasajero(pasajerote_uno)
+puts avioncito.get_peso_total_avion
+puts avioncito.get_calculo_combustible

@@ -1,5 +1,5 @@
 class Avion
-  def initialize(tipo_avion = "", cap_combustible = 0, peso_avion = 0, millas_recorrido = 0, cap_pasajeros = 0, cap_carga_equipaje = 0, limite_peso_avion = 0)
+  def initialize(tipo_avion = "", cap_combustible = 0, peso_avion = 0, millas_recorrido = 0, cap_pasajeros = 0, cap_carga_equipaje = 0, limite_peso_avion = 0, limite_peso_equipaje_pasajero = 0)
       @tipo_avion = tipo_avion
       @cap_combustible = cap_combustible
       @peso_avion = peso_avion
@@ -9,6 +9,7 @@ class Avion
       @array_pasajeros = []
       @limite_peso_avion = limite_peso_avion
       @combustible_actual = 0
+      @limite_peso_equipaje_pasajero = limite_peso_equipaje_pasajero
   end
 
   def set_tipo_avion(tipo_avion)
@@ -41,6 +42,10 @@ class Avion
 
   def set_limite_peso_avion(limite_peso_avion)
       @limite_peso_avion = limite_peso_avion
+  end
+
+  def set_limite_peso_equipaje_pasajero(limite_peso_equipaje_pasajero)
+      @limite_peso_equipaje_pasajero = limite_peso_equipaje_pasajero
   end
 
   def set_combustible_actual(combustible_actual)
@@ -90,6 +95,10 @@ class Avion
   def get_combustible_actual
       return @combustible_actual
   end
+
+  def get_limite_peso_equipaje_pasajero
+      return @limite_peso_equipaje_pasajero
+  end
 #Se hace uso de self para hacer referencia a metodos dentro de la misma clase
   def get_peso_total_avion
      return @peso_avion + self.get_total_carga_equipaje + self.get_total_peso_pasajeros
@@ -132,13 +141,24 @@ class Avion
   end
 #Se emplea un if anidado agregando al pasajero cuando se cumplen ambas condiciones
   def add_pasajero(pasajero)
+      #If 1
       if get_peso_total_avion + ((pasajero.get_peso_pasajero + pasajero.get_peso_total_maletas) / 1000.0) <= @limite_peso_avion
-        if (get_no_pasajeros + 1) <= get_cap_pasajeros
-          @array_pasajeros.push(pasajero)
-        else
-          puts "Suerte para la proxima siga participando"
-        end
-      else
+        #Bloque 1 donde se cumplio la condicion del If 1
+          #If 2
+          if (get_no_pasajeros + 1) <= get_cap_pasajeros
+            #Bloque 2 donde se cumplio la condificion del If 2
+            #If informativo
+            if pasajero.get_peso_total_maletas > get_limite_peso_equipaje_pasajero
+              puts "Su equipaje excede el limite de peso permitido necesita pagar el exceso"
+            end
+
+            @array_pasajeros.push(pasajero)
+            #Aqui termina el Bloque 2
+          else #Cuano no se cumplio el If 2
+            puts "Suerte para la proxima siga participando"
+          end
+        #Aqui termina el Bloque 1
+      else #Cuando no se cumplio el If 1
         puts "Bajale a las tortas gordito"
       end
   end
@@ -146,10 +166,13 @@ class Avion
 end
 
 class Pasajero
+  @@ID = 0
   def initialize(peso_pasajero = 0, peso_total_maletas = 0, cantidad_maleta = 0)
       @peso_pasajero = peso_pasajero
       @peso_total_maletas = peso_total_maletas
       @cantidad_maleta = cantidad_maleta
+      @@ID = @@ID + 1  #Cada que se agrega un pasajero al ID se le suma 1
+      @id_pasajero = @@ID #El id_pasajero va aumentando en 1
   end
 
   def set_peso_pasajero(peso_pasajero)
@@ -175,14 +198,18 @@ class Pasajero
   def get_cantidad_maleta
       return @cantidad_maleta
   end
+
+  def get_id_pasajero
+      return @id_pasajero
+  end
 end
 
-avioncito = Avion.new("Chafita", 200, 60, 1000, 3, 120, 60)
+avioncito = Avion.new("Chafita", 200, 60, 1000, 3, 120, 62, 30)
 avioncito.set_combustible_actual(30)
 pasajerito_uno = Pasajero.new(80, 23, 2)
-pasajerita_uno = Pasajero.new(45, 10, 1)
+pasajerita_uno = Pasajero.new(45, 50, 1)
 pasajerote_uno = Pasajero.new(200, 25, 2)
-pasajerote_dos = Pasajero.new(80, 20, 3)
+pasajerote_dos = Pasajero.new(80, 50, 3)
 avioncito.add_pasajero(pasajerito_uno)
 avioncito.add_pasajero(pasajerita_uno)
 avioncito.add_pasajero(pasajerote_uno)
@@ -191,3 +218,7 @@ puts "Cantidad de pasajeros #{avioncito.get_no_pasajeros}"
 puts avioncito.get_peso_total_avion
 puts "Cantidad de litros necesarios para recorrer #{avioncito.get_millas_recorridas} millas es de #{avioncito.get_calculo_combustible} lts. "
 puts "Capacidad maxima de combustible: #{avioncito.get_cap_combustible} y combustible actual: #{avioncito.get_combustible_actual}"
+puts pasajerito_uno.get_id_pasajero
+puts pasajerita_uno.get_id_pasajero
+puts pasajerote_uno.get_id_pasajero
+puts pasajerote_dos.get_id_pasajero

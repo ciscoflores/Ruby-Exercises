@@ -10,6 +10,7 @@ class Avion
       @limite_peso_avion = limite_peso_avion
       @combustible_actual = 0
       @limite_peso_equipaje_pasajero = limite_peso_equipaje_pasajero
+      @asiento = 1
   end
 
   def set_tipo_avion(tipo_avion)
@@ -153,6 +154,8 @@ class Avion
             end
 
             @array_pasajeros.push(pasajero)
+            pasajero.set_numero_asiento(@asiento) #se asigna el numero de asiento al pasajero recien agregado
+            @asiento = @asiento + 1
             #Aqui termina el Bloque 2
           else #Cuano no se cumplio el If 2
             puts "Suerte para la proxima siga participando"
@@ -161,6 +164,20 @@ class Avion
       else #Cuando no se cumplio el If 1
         puts "Bajale a las tortas gordito"
       end
+  end
+
+  def remove_pasajero(pasajero) #se remueve el objeto
+    @array_pasajeros.delete(pasajero)
+  end
+
+  def listado_pasajeros
+      @array_pasajeros.each do |pasajero|
+        puts "ID pasajero: #{pasajero.get_id_pasajero}, numero de asiento: #{pasajero.get_numero_asiento}, numero de maletas: #{pasajero.get_cantidad_maleta}, peso de equipaje: #{pasajero.get_peso_total_maletas}"
+      end
+  end
+
+  def remove_pasajero_con_ID(id) #se busca dentro del array el id y remueve el que sea igual
+      @array_pasajeros.delete_if {|pasajero| pasajero.get_id_pasajero == id}
   end
 
 end
@@ -173,6 +190,7 @@ class Pasajero
       @cantidad_maleta = cantidad_maleta
       @@ID = @@ID + 1  #Cada que se agrega un pasajero al ID se le suma 1
       @id_pasajero = @@ID #El id_pasajero va aumentando en 1
+      @numero_asiento = 0
   end
 
   def set_peso_pasajero(peso_pasajero)
@@ -185,6 +203,10 @@ class Pasajero
 
   def set_cantidad_maleta(cantidad_maleta)
       @cantidad_maleta = cantidad_maleta
+  end
+
+  def set_numero_asiento(numero_asiento)
+      @numero_asiento = numero_asiento
   end
 
   def get_peso_pasajero
@@ -202,9 +224,13 @@ class Pasajero
   def get_id_pasajero
       return @id_pasajero
   end
+
+  def get_numero_asiento
+      return @numero_asiento
+  end
 end
 
-avioncito = Avion.new("Chafita", 200, 60, 1000, 3, 120, 62, 30)
+avioncito = Avion.new("Chafita", 200, 60, 1000, 6, 120, 62, 30)
 avioncito.set_combustible_actual(30)
 pasajerito_uno = Pasajero.new(80, 23, 2)
 pasajerita_uno = Pasajero.new(45, 50, 1)
@@ -222,3 +248,6 @@ puts pasajerito_uno.get_id_pasajero
 puts pasajerita_uno.get_id_pasajero
 puts pasajerote_uno.get_id_pasajero
 puts pasajerote_dos.get_id_pasajero
+#avioncito.remove_pasajero(pasajerote_uno)
+avioncito.remove_pasajero_con_ID(3)
+avioncito.listado_pasajeros

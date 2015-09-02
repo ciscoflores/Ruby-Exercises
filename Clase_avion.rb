@@ -180,6 +180,25 @@ class Avion
       @array_pasajeros.delete_if {|pasajero| pasajero.get_id_pasajero == id}
   end
 
+  def lista_asientos_ocupados
+      @array_pasajeros.each do |pasajero|
+        puts "No. de asiento #{pasajero.get_numero_asiento} ocupado"
+      end
+  end
+
+  def lista_asientos_disponibles
+    array_asientos = []
+    for asiento in 1..@cap_pasajeros #primero se enlistan los asientos del avion desde 1 hasta la cap_pasajeros y se guardan en un array
+        array_asientos.push(asiento)
+    end
+    @array_pasajeros.each do |pasajero|
+      array_asientos.delete(pasajero.get_numero_asiento) #Se eliminan del array los que ya estan ocupados basandose en el numero de asiento
+    end
+    array_asientos.each do |asiento|
+      puts "No. de asiento #{asiento} disponible" #se imprimen los restantes
+    end
+  end
+
 end
 
 class Pasajero
@@ -230,7 +249,7 @@ class Pasajero
   end
 end
 
-avioncito = Avion.new("Chafita", 200, 60, 1000, 6, 120, 62, 30)
+avioncito = Avion.new("Chafita", 200, 60, 1000, 20, 120, 62, 30)
 avioncito.set_combustible_actual(30)
 pasajerito_uno = Pasajero.new(80, 23, 2)
 pasajerita_uno = Pasajero.new(45, 50, 1)
@@ -244,10 +263,12 @@ puts "Cantidad de pasajeros #{avioncito.get_no_pasajeros}"
 puts avioncito.get_peso_total_avion
 puts "Cantidad de litros necesarios para recorrer #{avioncito.get_millas_recorridas} millas es de #{avioncito.get_calculo_combustible} lts. "
 puts "Capacidad maxima de combustible: #{avioncito.get_cap_combustible} y combustible actual: #{avioncito.get_combustible_actual}"
-puts pasajerito_uno.get_id_pasajero
-puts pasajerita_uno.get_id_pasajero
-puts pasajerote_uno.get_id_pasajero
-puts pasajerote_dos.get_id_pasajero
+#puts pasajerito_uno.get_id_pasajero
+#puts pasajerita_uno.get_id_pasajero
+#puts pasajerote_uno.get_id_pasajero
+#puts pasajerote_dos.get_id_pasajero
 #avioncito.remove_pasajero(pasajerote_uno)
 avioncito.remove_pasajero_con_ID(3)
 avioncito.listado_pasajeros
+avioncito.lista_asientos_ocupados
+avioncito.lista_asientos_disponibles

@@ -177,7 +177,20 @@ class Avion
   end
 
   def remove_pasajero_con_ID(id) #se busca dentro del array el id y remueve el que sea igual
-      @array_pasajeros.delete_if {|pasajero| pasajero.get_id_pasajero == id}
+      #@array_pasajeros.delete_if {|pasajero| pasajero.get_id_pasajero == id}
+      #@array_pasajeros.each do |pasajero|
+      #  if pasajero.get_id_pasajero == id
+      #     pasajero = nil
+      #     return
+      #  end
+      #end
+     @array_pasajeros.each_index do |index| #se recorre el array por indice
+        pasajero = @array_pasajeros[index]  # la variable pasajero almacena el elemento/objeto que hay en ese indice del array
+        if pasajero.get_id_pasajero == id   # si el id del pasajero es igual al id buscado
+         @array_pasajeros[index] = Pasajero.new  # en el indice del pasajero se almacena un pasajero nuevo(vacio)
+          return  #detiene el each do donde encontro el id
+        end
+      end
   end
 
   def lista_asientos_ocupados
@@ -255,6 +268,8 @@ pasajerito_uno = Pasajero.new(80, 23, 2)
 pasajerita_uno = Pasajero.new(45, 50, 1)
 pasajerote_uno = Pasajero.new(200, 25, 2)
 pasajerote_dos = Pasajero.new(80, 50, 3)
+pasajerote_tres = Pasajero.new(80, 50, 3)
+pasajerote_cuatro = Pasajero.new(80, 50, 3)
 avioncito.add_pasajero(pasajerito_uno)
 avioncito.add_pasajero(pasajerita_uno)
 avioncito.add_pasajero(pasajerote_uno)
@@ -269,6 +284,10 @@ puts "Capacidad maxima de combustible: #{avioncito.get_cap_combustible} y combus
 #puts pasajerote_dos.get_id_pasajero
 #avioncito.remove_pasajero(pasajerote_uno)
 avioncito.remove_pasajero_con_ID(3)
+avioncito.add_pasajero(pasajerote_uno)
+avioncito.add_pasajero(pasajerote_tres)
+avioncito.add_pasajero(pasajerote_cuatro)
+avioncito.remove_pasajero_con_ID(5)
 avioncito.listado_pasajeros
 avioncito.lista_asientos_ocupados
 avioncito.lista_asientos_disponibles

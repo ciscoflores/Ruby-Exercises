@@ -195,7 +195,9 @@ class Avion
 
   def lista_asientos_ocupados
       @array_pasajeros.each do |pasajero|
-        puts "No. de asiento #{pasajero.get_numero_asiento} ocupado"
+        if pasajero.get_numero_asiento > 0  #solo asigna asientos si el pasajero no es "fantasma"
+           puts "No. de asiento #{pasajero.get_numero_asiento} ocupado"
+         end
       end
   end
 
@@ -210,6 +212,18 @@ class Avion
     array_asientos.each do |asiento|
       puts "No. de asiento #{asiento} disponible" #se imprimen los restantes
     end
+  end
+
+  def reordena_asientos
+      @array_pasajeros.each_index do |index|
+        pasajeros = @array_pasajeros[index]
+        if pasajeros.get_numero_asiento == 0
+           if index < (@array_pasajeros.count - 1) #si el indice del pasajero es menor
+              @array_pasajeros[index] = @array_pasajeros[index + 1] # se mueve el contenido del siguiente pasajero y el pasajero+1 almacena un nuevo pasajero vacio
+              @array_pasajeros[index + 1] = Pasajero.new
+           end
+        end
+      end
   end
 
 end
@@ -289,5 +303,8 @@ avioncito.add_pasajero(pasajerote_tres)
 avioncito.add_pasajero(pasajerote_cuatro)
 avioncito.remove_pasajero_con_ID(5)
 avioncito.listado_pasajeros
+avioncito.lista_asientos_ocupados
+avioncito.lista_asientos_disponibles
+avioncito.reordena_asientos
 avioncito.lista_asientos_ocupados
 avioncito.lista_asientos_disponibles

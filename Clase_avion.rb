@@ -215,15 +215,30 @@ class Avion
   end
 
   def reordena_asientos
+      index_ocupado = 0
       @array_pasajeros.each_index do |index|
-        pasajeros = @array_pasajeros[index]
-        if pasajeros.get_numero_asiento == 0
-           if index < (@array_pasajeros.count - 1) #si el indice del pasajero es menor
-              @array_pasajeros[index] = @array_pasajeros[index + 1] # se mueve el contenido del siguiente pasajero y el pasajero+1 almacena un nuevo pasajero vacio
-              @array_pasajeros[index + 1] = Pasajero.new
-           end
+        pasajero = @array_pasajeros[index]
+        if pasajero.get_numero_asiento == 0 #si el pasajero esta vacio
+           index_inicial_sig_a = index + 1 #para determinar donde inicia el rango del sub_array
+           index_final_sig_a = @array_pasajeros.count - 1 #para determinar donde termina el rango del sub_array
+           index_ocupado = index + busca_asiento_ocupado(@array_pasajeros[index_inicial_sig_a..index_final_sig_a]) #donde vamos a encontrar el pasajero que se movera
+           pasajero_temp = @array_pasajeros[index_ocupado] #el indice que vamos a mover
+           pasajero_temp.set_numero_asiento(index + 1) #le asignamos el numero de asiento
+           @array_pasajeros[index] = pasajero_temp #se asigna al pasajero al indice que estaba vacio
+           @array_pasajeros[index_ocupado] = Pasajero.new #se crea un pasajero nuevo vacio
         end
       end
+  end
+
+  def busca_asiento_ocupado(sub_array) #cuantos saltos hay que dar para encontrar el asiento ocupado
+      sub_array.each_index do |index|
+        pasajero = sub_array[index]
+         if pasajero.get_numero_asiento >= 1 #siempre vefiricar la posicion de los IF
+            return index + 1
+            break
+         end
+      end
+      return 0
   end
 
 end

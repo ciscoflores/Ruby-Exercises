@@ -193,6 +193,16 @@ class Avion
       end
   end
 
+  def another_remove_pasajero(id)
+      @array_pasajeros.delete_if {|pasajero| pasajero.get_id_pasajero == id} #se elimina al pasajero por completo (no se dejan asientos vacios)
+      @array_pasajeros.each do |pasajero|
+        if pasajero.get_id_pasajero == id
+           pasajero = nil
+           break
+        end
+      end
+  end
+
   def lista_asientos_ocupados
       @array_pasajeros.each do |pasajero|
         if pasajero.get_numero_asiento > 0  #solo asigna asientos si el pasajero no es "fantasma"
@@ -212,6 +222,14 @@ class Avion
     array_asientos.each do |asiento|
       puts "No. de asiento #{asiento} disponible" #se imprimen los restantes
     end
+  end
+
+  def another_reordena_asientos
+      asiento = 1
+      @array_pasajeros.each do |pasajero|
+          pasajero.set_numero_asiento(asiento)  #se reescriben los numeros de asientos de los pasajeros iniciando en 1
+          asiento = asiento + 1
+      end
   end
 
   def reordena_asientos
@@ -312,14 +330,17 @@ puts "Capacidad maxima de combustible: #{avioncito.get_cap_combustible} y combus
 #puts pasajerote_uno.get_id_pasajero
 #puts pasajerote_dos.get_id_pasajero
 #avioncito.remove_pasajero(pasajerote_uno)
-avioncito.remove_pasajero_con_ID(3)
+#avioncito.remove_pasajero_con_ID(3)
+avioncito.another_remove_pasajero(3)
 avioncito.add_pasajero(pasajerote_uno)
 avioncito.add_pasajero(pasajerote_tres)
 avioncito.add_pasajero(pasajerote_cuatro)
-avioncito.remove_pasajero_con_ID(5)
+#avioncito.remove_pasajero_con_ID(5)
+avioncito.another_remove_pasajero(5)
 avioncito.listado_pasajeros
 avioncito.lista_asientos_ocupados
 avioncito.lista_asientos_disponibles
-avioncito.reordena_asientos
+#avioncito.reordena_asientos
+avioncito.another_reordena_asientos
 avioncito.lista_asientos_ocupados
 avioncito.lista_asientos_disponibles
